@@ -2,13 +2,12 @@ import functions_framework
 from google.cloud import storage
 import os
 # Flask関連
-from flask import abort, send_file
+from flask import send_file
 from PIL import Image, ImageOps
 import io
 
-# 環境変数からGCPプロジェクトIDとバケット名を取得
+# 環境変数からGCPプロジェクトIDを取得
 PROJECT_ID = os.environ.get('PROJECT_ID')
-BUCKET_NAME = os.environ.get('BUCKET_NAME')
 
 def set_koreichi(image):
 	# 左側のトリミング
@@ -31,24 +30,18 @@ def set_koreichi(image):
 	return base_image
 
 @functions_framework.http
-def koreichi_http(request):
-	# カード名をHTTPリクエストから取得
-	request_json = request.get_json(silent=True)
-	if request_json and 'card_name' in request_json:
-		card_name = request_json['card_name']
-	else:
-		return abort(400, 'The request must contain "card_name".')
-	
-	# Storageクライアントを初期化
-	storage_client = storage.Client(PROJECT_ID)
-	bucket = storage_client.get_bucket(BUCKET_NAME)
+def koreichi_maker_http(request):
+	# リクエストがPOSTでない場合はエラーを返す
+	if request.method != 'POST':
+		return 'Only POST requests are accepted', 405
 
-	# ファイルを指定して読み込み
-	blob = bucket.blob(f'yugioh/{card_name}.png')
+	# リクエストから画像ファイルを取得
+	file = request.files['file']
+	if not file:
+		return 'No file provided', 400
 	
-	# ファイルの内容を読み込む
-	file_contents = blob.download_as_bytes()
-	image = Image.open(io.BytesIO(file_contents))
+	# 画像ファイルを読み込む
+	image = Image.open(file.stream)
 
 	# 画像処理部分
 	image = set_koreichi(image)

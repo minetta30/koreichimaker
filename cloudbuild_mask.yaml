@@ -1,19 +1,19 @@
 steps:
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['functions', 'deploy', 'koreichi-card-api',
+  args: ['functions', 'deploy', 'koreichi-maker-api',
          '--region', 'asia-northeast1',
          '--runtime', 'python311',
          '--trigger-http',
          '--gen2',
-         '--entry-point', 'koreichi_http',
-         '--set-env-vars', 'PROJECT_ID={_PROJECT_ID},BUCKET_NAME={_BUCKET_NAME}']
+         '--entry-point', 'koreichi_maker_http',
+         '--set-env-vars', 'PROJECT_ID={_PROJECT_ID}']
   dir: './functions'
-
+ 
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['app', 'deploy']
+  args: ['app', 'deploy', './appengine/app_mask.yaml']
   dir: './appengine'
-
-logsBucket: 'gs://koreichi-bucket/Log/build'
-serviceAccount: 'projects/{_PROJECT_ID}/serviceAccounts/{_SERVICE_ACCOUNT}'
+ 
+logsBucket: 'gs://{_BUCKET_NAME}/Log/build'
+serviceAccount: 'projects/{_PROJECT_ID}/serviceAccounts/koreichi-sa@{_PROJECT_ID}.iam.gserviceaccount.com'
 options:
   logging: GCS_ONLY

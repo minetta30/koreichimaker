@@ -1,3 +1,5 @@
 environment.env
 cloudbuild.yaml
 appengine/app.yaml
+unmask.bat
+mask.bat
