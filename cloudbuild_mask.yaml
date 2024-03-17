@@ -14,6 +14,6 @@ steps:
   dir: './appengine'
  
 logsBucket: 'gs://{_BUCKET_NAME}/Log/build'
-serviceAccount: 'projects/{_PROJECT_ID}/serviceAccounts/koreichi-sa@{_PROJECT_ID}.iam.gserviceaccount.com'
+serviceAccount: 'projects/{_PROJECT_ID}/serviceAccounts/{_SERVICE_ACCOUNT}'
 options:
   logging: GCS_ONLY
