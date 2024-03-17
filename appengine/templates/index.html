@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+	<div class="main-container">
+		{% if result %}
+		<IMG SRC="data:image/png;base64,{{img_data}}" alt="img_data"  id="imgslot"/>
+		<div>{{result}}</div>
+		<HR>
+		{% endif %}
+		画像ファイルを選択して送信してください<BR>
+		<form action="./" method="POST" enctype="multipart/form-data" class="form-container">
+			<div>
+				<input type="file" name="file" class="input-form"/>
+			</div>
+			<input type="submit" name="submit_button" value="アップロード" class="submit-button"/>
+		</form>
+		またはカード名を入力して送信してください<BR>
+		<form action="./" method="POST" class="form-container">
+			<div>
+				<input type="text" name="text" id="inputForm" class="input-form" placeholder="入力してください...">
+				<div id="suggestionBox" class="suggestion-box"></div>
+			</div>
+			<input type="submit" name="submit_button" value="送信" class="submit-button">
+		</form>
+	</div>
+
+	<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

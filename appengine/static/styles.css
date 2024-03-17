@@ -1,0 +1,31 @@
+.main-container {
+    max-width: 600px; /* 最大横幅を制限 */
+    margin: 0 auto; /* 上下のマージンを0にし、左右のマージンを自動で中央寄せ */
+    padding: 20px; /* 内部の余白を設定 */
+}
+
+.form-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.form-container > div {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.input-form {
+    width: 100%;
+}
+
+.suggestion-box {
+    position: absolute;
+    z-index: 1000;
+    /* その他のスタイル (背景色、パディング等) */
+}
+
+.submit-button {
+    margin-left: 10px;
+    /* その他のボタンのスタイル */
+}

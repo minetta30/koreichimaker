@@ -1,0 +1,19 @@
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['functions', 'deploy', 'koreichi-card-api',
+         '--region', 'asia-northeast1',
+         '--runtime', 'python311',
+         '--trigger-http',
+         '--gen2',
+         '--entry-point', 'koreichi_http',
+         '--set-env-vars', 'PROJECT_ID={_PROJECT_ID},BUCKET_NAME={_BUCKET_NAME}']
+  dir: './functions'
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['app', 'deploy']
+  dir: './appengine'
+
+logsBucket: 'gs://koreichi-bucket/Log/build'
+serviceAccount: 'projects/{_PROJECT_ID}/serviceAccounts/{_SERVICE_ACCOUNT}'
+options:
+  logging: GCS_ONLY
